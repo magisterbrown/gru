@@ -10,7 +10,7 @@ class Stats():
         self.std=std
 
 train_size = 142000
-batch_size = 90
+batch_size = 90+1
 
 files = list()
 
@@ -22,23 +22,19 @@ seq = fl.iloc[:,[1]].to_numpy().squeeze(axis=1)
 
 ts = (int(train_size/batch_size)+1)*batch_size
 train_x=seq[:ts]
-train_y=seq[1:ts+1]
 batch_x= np.reshape(train_x, (-1,batch_size))
-batch_y= np.reshape(train_y, (-1,batch_size))
 mean = train_x.mean()
 std = train_x.std()
 stats = Stats(mean,std)
 norm = lambda x:(x-mean)/std
 tdf = pd.DataFrame(norm(batch_x))
-pdf = pd.DataFrame(norm(batch_y))
 
 known = pd.Series(norm(train_x))
 unkonwn = pd.Series(norm(seq[ts:]))
 with open(f'{dirprocessed}/stats.pkl', 'wb') as out:
     pickle.dump(stats,out,pickle.HIGHEST_PROTOCOL)
 
-tdf.to_csv(f'{dirprocessed}/train_x.csv')
-pdf.to_csv(f'{dirprocessed}/train_y.csv')
+tdf.to_csv(f'{dirprocessed}/train.csv')
 
 known.to_csv(f'{dirprocessed}/test_x.csv')
 unkonwn.to_csv(f'{dirprocessed}/test_y.csv')
