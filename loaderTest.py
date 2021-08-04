@@ -9,9 +9,9 @@ class Test(unittest.TestCase):
     
     def load(self):
         x,y = self.ds[0]
-        print(x.shape)
-        print(y.shape)
 
+        self.assertEquals(x.size,90)
+        self.assertEquals(y.size,90)
 if __name__ == '__main__':
     unittest.main()
 
