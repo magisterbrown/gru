@@ -32,7 +32,9 @@ class InputGate(nn.Module):
         self.sig = activation
 
     def forward(self, x: torch.Tensor, hidden: torch.Tensor):
+        inp =self.input(x) 
+        mem = self.memory(hidden)
 
-        x = self.input(x)+self.hidden(x)
+        x = + inp+mem
         x = self.sig(x)
         return x
