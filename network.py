@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch
 from gru import GRU
 
-class RNN(nn.module):
+class RNN(nn.Module):
     def __init__(self,hidden=256):
         super().__init__()
         self.gru = GRU(1,hidden)
@@ -15,9 +15,10 @@ class RNN(nn.module):
         out = torch.zeros(x.shape)
         bs = x.shape[0]
         hid = torch.zeros((bs,self.hidden))
-        for k,v in enumerate(x):
+        for i in range(x.shape[-1]):
+            v = x[...,i][...,np.newaxis]
             hid = self.gru(v,hid)
             fin = self.l1(self.rl(hid))
-            out[k]=fin
+            out[:,i]=fin.squeeze()
         
         return out
