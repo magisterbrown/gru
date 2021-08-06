@@ -1,7 +1,7 @@
 import numpy as np
 import torch.nn as nn
 import torch
-from gru import GRU
+from grun import GRU
 
 class RNN(nn.Module):
     def __init__(self,hidden=256):
@@ -12,9 +12,9 @@ class RNN(nn.Module):
         self.hidden = hidden
 
     def forward(self,x):
-        out = torch.zeros(x.shape)
+        out = torch.zeros(x.shape,dtype=x.dtype,device=x.device)
         bs = x.shape[0]
-        hid = torch.zeros((bs,self.hidden))
+        hid = torch.zeros((bs,self.hidden),dtype=x.dtype,device=x.device)
         for i in range(x.shape[-1]):
             v = x[...,i][...,np.newaxis]
             hid = self.gru(v,hid)
